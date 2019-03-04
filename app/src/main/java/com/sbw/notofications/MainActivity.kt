@@ -41,8 +41,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun createNotificationGroups() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val list = ArrayList<NotificationChannelGroup>()
-            list.add(NotificationChannelGroup("home", "in"))
-            list.add(NotificationChannelGroup("home", "out"))
+            list.add(NotificationChannelGroup("in", "in"))
+            list.add(NotificationChannelGroup("out", "out"))
 
             notificationManager?.createNotificationChannelGroups(list)
 
@@ -52,11 +52,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun createNotificationChannels() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
-            val notificationChannel = NotificationChannel("home", "in", NotificationManager.IMPORTANCE_HIGH)
+            val notificationChannel = NotificationChannel("home" + "_" + "in", "in", NotificationManager.IMPORTANCE_HIGH)
             notificationChannel.enableLights(true)
             notificationChannel.enableVibration(true)
             notificationChannel.setShowBadge(true)
-            notificationChannel.group = "home"
+            notificationChannel.group = "in"
             notificationChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
 
             if (notificationManager != null) {
@@ -82,8 +82,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 var channel_id = ""
                 var group_id = ""
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    group_id = "home"
-                    channel_id = notificationManager?.getNotificationChannel("home").toString()
+                    group_id = "in"
+                    channel_id = (notificationManager?.getNotificationChannel("home" + "_" + group_id)?.id).toString()
                     contentIntent = PendingIntent.getActivity(this@MainActivity, 0, Intent(this@MainActivity, MainActivity::class.java).putExtra("importance", notificationManager?.getNotificationChannel(channel_id)?.importance).putExtra("channel_id", channel_id), PendingIntent.FLAG_UPDATE_CURRENT)
 
                 }
